@@ -2,12 +2,12 @@ import { Suspense } from "react"
 import { ChevronLeft, Download } from 'lucide-react'
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Skeleton } from "@/components/ui/skeleton"
 import { TicketChat } from "@/components/ticket-chat"
 import { TicketInfo } from "@/components/ticket-info"
 
-export default function TicketPage({ params }: { params: { id: string } }) {
+export default async function TicketPage({ params }: { params: { id: string } | Promise<{ id: string }> }) {
+  const resolvedParams = await Promise.resolve(params);
   return (
     <div className="min-h-screen bg-background dark:bg-gray-900">
       <header className="border-b dark:border-gray-800">
@@ -18,7 +18,7 @@ export default function TicketPage({ params }: { params: { id: string } }) {
             </Button>
           </Link>
           <div className="flex-1 min-w-0">
-            <h1 className="text-lg font-semibold truncate">TICKET-{params.id}</h1>
+            <h1 className="text-lg font-semibold truncate">TICKET-{resolvedParams.id}</h1>
             <p className="text-sm text-muted-foreground truncate">User Appeal</p>
           </div>
           <Button variant="outline" size="sm" className="rounded-full whitespace-nowrap">
@@ -30,10 +30,10 @@ export default function TicketPage({ params }: { params: { id: string } }) {
       <div className="container mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-[1fr_300px] gap-6">
           <Suspense fallback={<Skeleton className="h-[600px] rounded-2xl" />}>
-            <TicketChat ticketId={params.id} />
+            <TicketChat ticketId={resolvedParams.id} />
           </Suspense>
           <Suspense fallback={<Skeleton className="h-[400px] rounded-2xl" />}>
-            <TicketInfo ticketId={params.id} />
+            <TicketInfo ticketId={resolvedParams.id} />
           </Suspense>
         </div>
       </div>
