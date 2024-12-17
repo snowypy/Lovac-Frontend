@@ -246,7 +246,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <div className="space-y-6 h-[calc(100vh-10rem)] flex flex-col rounded-2xl border dark:border-gray-800 overflow-hidden flex-shrink-0">
+      <div className="max-h-36 space-y-2 h-[calc(100vh-10rem)] flex flex-col rounded-2xl border dark:border-gray-800 overflow-hidden flex-shrink-0">
       <div className="bg-muted p-4 dark:bg-gray-800/50">
           <pre className="text-sm overflow-auto whitespace-pre-wrap break-words max-h-60">
             <code>
@@ -258,11 +258,13 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
             </code>
           </pre>
         </div>
-        <div className="p-4 text-sm text-muted-foreground">
+        <div className="text-sm text-muted-foreground">
           <Button variant="ghost" size="sm" className="ml-2 rounded-full">Lower Time</Button> <Button variant="ghost" size="sm" className="ml-2 rounded-full">Lift Punishment</Button> <Button variant="destructive" size="sm" className="ml-2 rounded-full">Blacklist</Button>
         </div>
       </div>
 
+        <div className="p-4" />
+        
       <div className="space-y-6 flex-grow overflow-auto">
         {messages.map((message, index) => (
           <motion.div
