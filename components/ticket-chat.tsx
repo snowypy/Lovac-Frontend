@@ -7,9 +7,7 @@ import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from "framer-motion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Ticket } from "../types/ticket"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
 import { CommandPalette } from "@/components/command-palette"
 import {
   AlertDialog,
@@ -21,7 +19,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-import { Router } from 'lucide-react'
 
 
 interface Message {
@@ -60,9 +57,14 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
 
         const data = await response.json();
         setMessages(data);
-      } catch (err) {
-        console.error('Failed to fetch messages:', err);
-        setError(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error('Failed to fetch messages:', err.message);
+          setError(err.message);
+        } else {
+          console.error('Failed to fetch messages:', err);
+          setError('An unknown error occurred');
+        }
       } finally {
         setLoading(false);
       }
@@ -105,13 +107,22 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
 
           console.log('Ticket assigned successfully');
           setIsAssigned(true);
-        } catch (error) {
-          console.error('Error assigning ticket:', error);
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            console.error('Error assigning ticket:', err.message);
+          } else {
+            console.error('Error assigning ticket:', err);
+          }
         }
       }
-    } catch (err) {
-      console.error('Failed to send message:', err);
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Failed to send message:', err.message);
+        setError(err.message);
+      } else {
+        console.error('Failed to send message:', err);
+        setError('An unknown error occurred');
+      }
     }
 
     setInputValue('');
@@ -208,9 +219,14 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
         throw new Error(`Failed to force close ticket: ${response.statusText}`);
       }  
       console.log('Ticket force closed successfully');
-    } catch (err) {
-      console.error('Failed to force close ticket:', err);
-      setError(err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Failed to force close ticket:', err.message);
+        setError(err.message);
+      } else {
+        console.error('Failed to force close ticket:', err);
+        setError('An unknown error occurred');
+      }
     }
     setShowCloseDialog(false)
   }
@@ -229,9 +245,8 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-6 h-[calc(100vh-10rem)] flex flex-col"
     >
-      <div className="rounded-2xl border dark:border-gray-800 overflow-hidden flex-shrink-0">
+      <div className="space-y-6 h-[calc(100vh-10rem)] flex flex-col rounded-2xl border dark:border-gray-800 overflow-hidden flex-shrink-0">
       <div className="bg-muted p-4 dark:bg-gray-800/50">
           <pre className="text-sm overflow-auto whitespace-pre-wrap break-words max-h-60">
             <code>
@@ -255,18 +270,19 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="flex gap-4"
           >
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={message.authorAvatar} />
-              <AvatarFallback>{message.username}</AvatarFallback>
-            </Avatar>
-            <div className="space-y-2 flex-1">
-              <div className="flex items-center gap-2">
-                <span className="font-medium">{message.username}</span>
-                <span className="text-sm text-muted-foreground">{new Date(message.date).toLocaleString()}</span>
+            <div className="flex gap-4">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={message.authorAvatar} />
+                <AvatarFallback>{message.username}</AvatarFallback>
+              </Avatar>
+              <div className="space-y-2 flex-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-medium">{message.username}</span>
+                  <span className="text-sm text-muted-foreground">{new Date(message.date).toLocaleString()}</span>
+                </div>
+                <div className="text-sm">{message.message}</div>
               </div>
-              <div className="text-sm">{message.message}</div>
             </div>
           </motion.div>
         ))}

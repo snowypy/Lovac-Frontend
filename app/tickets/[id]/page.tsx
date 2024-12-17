@@ -6,8 +6,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { TicketChat } from "@/components/ticket-chat"
 import { TicketInfo } from "@/components/ticket-info"
 
-export default async function TicketPage({ params }: { params: { id: string } | Promise<{ id: string }> }) {
-  const resolvedParams = await Promise.resolve(params);
+export default async function TicketPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
   return (
     <div className="min-h-screen bg-background dark:bg-gray-900">
       <header className="border-b dark:border-gray-800">
@@ -40,4 +40,3 @@ export default async function TicketPage({ params }: { params: { id: string } | 
     </div>
   )
 }
-

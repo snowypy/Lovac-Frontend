@@ -121,11 +121,10 @@ export function NotificationDropdown() {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="relative group"
                     >
                       <Link 
                         href={`/tickets/${notification.ticketId}`}
-                        className="block p-4 hover:bg-muted/50 border-b dark:border-gray-800"
+                        className="relative group block p-4 hover:bg-muted/50 border-b dark:border-gray-800"
                       >
                         <div className="flex items-start justify-between gap-2">
                           <div>
@@ -172,10 +171,9 @@ export function NotificationDropdown() {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="p-4 border-b dark:border-gray-800"
                     >
                       <Link href={`/tickets/${notification.ticketId}`}>
-                        <p className="font-medium">
+                        <p className="p-4 border-b dark:border-gray-800 font-medium">
                           Ticket #{notification.ticketId} {notification.message.split('\n')[0]}
                         </p>
                         <p className="text-sm text-muted-foreground mt-1">

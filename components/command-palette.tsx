@@ -17,40 +17,43 @@ const commands = [
 
 export function CommandPalette({ onSelect }: CommandPaletteProps) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 10 }}
-      className="absolute bottom-full left-0 w-full mb-2 bg-background dark:bg-gray-800 rounded-xl shadow-lg border dark:border-gray-700 overflow-hidden"
-    >
-      {commands.map((command, index) => (
-        <div key={command.label}>
-          {command.subCommands ? (
-            <>
-              <div className="px-4 py-2 text-sm font-medium text-muted-foreground">{command.label}</div>
-              {command.subCommands.map((subCommand, subIndex) => (
+    <div className="absolute bottom-full left-0 w-full mb-2 bg-background dark:bg-gray-800 rounded-xl shadow-lg border dark:border-gray-700 overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 10 }}
+      >
+        <div className="absolute bottom-full left-0 w-full mb-2 bg-background dark:bg-gray-800 rounded-xl shadow-lg border dark:border-gray-700 overflow-hidden">
+          {commands.map((command, index) => (
+            <div key={command.label}>
+              {command.subCommands ? (
+                <>
+                  <div className="px-4 py-2 text-sm font-medium text-muted-foreground">{command.label}</div>
+                  {command.subCommands.map((subCommand, subIndex) => (
+                    <button
+                      key={subCommand}
+                      className="w-full px-4 py-2 text-left text-sm hover:bg-muted dark:hover:bg-gray-700 flex items-center space-x-2"
+                      onClick={() => onSelect(subCommand)}
+                    >
+                      <command.icon className="w-4 h-4" />
+                      <span>{subCommand}</span>
+                    </button>
+                  ))}
+                </>
+              ) : (
                 <button
-                  key={subCommand}
                   className="w-full px-4 py-2 text-left text-sm hover:bg-muted dark:hover:bg-gray-700 flex items-center space-x-2"
-                  onClick={() => onSelect(subCommand)}
+                  onClick={() => onSelect(command.label)}
                 >
                   <command.icon className="w-4 h-4" />
-                  <span>{subCommand}</span>
+                  <span>{command.label}</span>
                 </button>
-              ))}
-            </>
-          ) : (
-            <button
-              className="w-full px-4 py-2 text-left text-sm hover:bg-muted dark:hover:bg-gray-700 flex items-center space-x-2"
-              onClick={() => onSelect(command.label)}
-            >
-              <command.icon className="w-4 h-4" />
-              <span>{command.label}</span>
-            </button>
-          )}
+              )}
+            </div>
+          ))}
         </div>
-      ))}
-    </motion.div>
+      </motion.div>
+    </div>
   )
 }
 

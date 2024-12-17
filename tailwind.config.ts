@@ -1,4 +1,5 @@
-const { fontFamily } = require("tailwindcss/defaultTheme")
+import { fontFamily } from "tailwindcss/defaultTheme"
+import tailwindcssAnimate from "tailwindcss-animate"
 
 /** @type {import('tailwindcss').Config} */
 const config: import('tailwindcss').Config = {
@@ -63,12 +64,12 @@ const config: import('tailwindcss').Config = {
       },
       keyframes: {
         "accordion-down": {
-          from: { height: 0 },
+          from: { height: "0px" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: 0 },
+          to: { height: "0px" },
         },
       },
       animation: {
@@ -77,7 +78,7 @@ const config: import('tailwindcss').Config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
 }
 
-module.exports = config;
+export default config;

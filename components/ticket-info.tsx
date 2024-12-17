@@ -150,91 +150,92 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
     <motion.div
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
-      className="space-y-6 h-[calc(100vh-10rem)] overflow-auto pr-2"
     >
-      <Card className="rounded-2xl">
-        <CardHeader>
-          <CardTitle>Assignee</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {ticket.assignee === "0" ? (
-            <div className="text-muted-foreground">Unassigned</div>
-          ) : (
-            <div className="flex items-center gap-4">
-              <Avatar>
-                <AvatarImage src={staffInfo?.discordAvatar} />
-                <AvatarFallback>
-                  {staffInfo?.discordDisplayName?.charAt(0) || 'U'}
-                </AvatarFallback>
-              </Avatar>
-              <div>
-                <div className="font-medium">{staffInfo?.discordDisplayName}</div>
-                <div className="text-sm text-muted-foreground">{staffInfo?.discordRole}</div>
-              </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      <Card className="rounded-2xl">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Tags</CardTitle>
-          <Popover open={isOpen} onOpenChange={setIsOpen}>
-            <PopoverTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-8 w-8">
-                <Plus className="h-4 w-4" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-48 p-2">
-              <div className="space-y-2">
-                {tags.map((tag) => (
-                  <button
-                    key={tag.id}
-                    className={`w-full px-2 py-1 text-left rounded-lg hover:bg-muted ${
-                      ticket.tags.includes(tag.id.toString()) ? 'opacity-50' : ''
-                    }`}
-                    onClick={() => addTag(tag.id)}
-                    disabled={ticket.tags.includes(tag.id.toString())}
-                  >
-                    <span className="flex items-center gap-2">
-                      {tag.tagIcon && <span className="text-lg">{tag.tagIcon}</span>}
-                      <span>{tag.tagLong}</span>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </PopoverContent>
-          </Popover>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-2">
-            {ticket.tags.length === 0 ? (
-              <div className="text-muted-foreground">No tags</div>
+      <div className="space-y-6 h-[calc(100vh-10rem)] overflow-auto pr-2">
+        <Card className="rounded-2xl">
+          <CardHeader>
+            <CardTitle>Assignee</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {ticket.assignee === "0" ? (
+              <div className="text-muted-foreground">Unassigned</div>
             ) : (
-              ticket.tags.map((tagId) => {
-                const tag = tags.find((t) => t.id.toString() === tagId)
-                if (!tag) return null
-                return (
-                  <Badge
-                    key={tagId}
-                    className="flex items-center gap-1"
-                    style={{ backgroundColor: tag.tagColor }}
-                  >
-                    {tag.tagIcon && <span>{tag.tagIcon}</span>}
-                    {tag.tagShort}
-                    <button
-                      className="ml-1 hover:opacity-80"
-                      onClick={() => removeTag(tagId)}
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </Badge>
-                )
-              })
+              <div className="flex items-center gap-4">
+                <Avatar>
+                  <AvatarImage src={staffInfo?.discordAvatar} />
+                  <AvatarFallback>
+                    {staffInfo?.discordDisplayName?.charAt(0) || 'U'}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <div className="font-medium">{staffInfo?.discordDisplayName}</div>
+                  <div className="text-sm text-muted-foreground">{staffInfo?.discordRole}</div>
+                </div>
+              </div>
             )}
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+          
+        <Card className="rounded-2xl">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Tags</CardTitle>
+            <Popover open={isOpen} onOpenChange={setIsOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-48 p-2">
+                <div className="space-y-2">
+                  {tags.map((tag) => (
+                    <button
+                      key={tag.id}
+                      className={`w-full px-2 py-1 text-left rounded-lg hover:bg-muted ${
+                        ticket.tags.includes(tag.id.toString()) ? 'opacity-50' : ''
+                      }`}
+                      onClick={() => addTag(tag.id)}
+                      disabled={ticket.tags.includes(tag.id.toString())}
+                    >
+                      <span className="flex items-center gap-2">
+                        {tag.tagIcon && <span className="text-lg">{tag.tagIcon}</span>}
+                        <span>{tag.tagLong}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </PopoverContent>
+            </Popover>
+          </CardHeader>
+          <CardContent>
+            <div className="flex flex-wrap gap-2">
+              {ticket.tags.length === 0 ? (
+                <div className="text-muted-foreground">No tags</div>
+              ) : (
+                ticket.tags.map((tagId) => {
+                  const tag = tags.find((t) => t.id.toString() === tagId)
+                  if (!tag) return null
+                  return (
+                    <Badge
+                      key={tagId}
+                      className="flex items-center gap-1"
+                      style={{ backgroundColor: tag.tagColor }}
+                    >
+                      {tag.tagIcon && <span>{tag.tagIcon}</span>}
+                      {tag.tagShort}
+                      <button
+                        className="ml-1 hover:opacity-80"
+                        onClick={() => removeTag(tagId)}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  )
+                })
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </motion.div>
   )
 }

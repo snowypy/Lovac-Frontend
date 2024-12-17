@@ -12,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 
 interface Ticket {
   id: string
@@ -104,86 +103,88 @@ export function TicketList() {
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="rounded-2xl border overflow-hidden"
     >
-      <Table className="dark:bg-gray-900">
-        <TableHeader>
-          <TableRow>
-            <TableHead className="rounded-tl-2xl">Ticket</TableHead>
-            <TableHead className="hidden sm:table-cell">Status</TableHead>
-            <TableHead className="hidden md:table-cell">Assignee</TableHead>
-            <TableHead className="hidden lg:table-cell">Date</TableHead>
-            <TableHead className="rounded-tr-2xl hidden xl:table-cell">Tags</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <AnimatePresence>
-            {tickets.map((ticket) => (
-              <motion.tr
-                key={ticket.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                whileHover={{ backgroundColor: "rgba(255,0,0,0.05)" }}
-                className="cursor-pointer transition-colors duration-200"
-              >
-                <TableCell className="font-medium">
-                  <Link href={`/tickets/${ticket.id}`} className="block space-y-1">
-                    <div className="font-mono text-sm">TICKET-{ticket.id}</div>
-                    <div>{ticket.title}</div>
-                    <div className="sm:hidden">
+      <div className="rounded-2xl border overflow-hidden">
+        <Table className="dark:bg-gray-900">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="rounded-tl-2xl">Ticket</TableHead>
+              <TableHead className="hidden sm:table-cell">Status</TableHead>
+              <TableHead className="hidden md:table-cell">Assignee</TableHead>
+              <TableHead className="hidden lg:table-cell">Date</TableHead>
+              <TableHead className="rounded-tr-2xl hidden xl:table-cell">Tags</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            <AnimatePresence>
+              {tickets.map((ticket) => (
+                <motion.tr
+                  key={ticket.id}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  whileHover={{ backgroundColor: "rgba(255,0,0,0.05)" }} 
+                >
+                  <div className="cursor-pointer transition-colors duration-200">
+                    <TableCell className="font-medium">
+                      <Link href={`/tickets/${ticket.id}`} className="block space-y-1">
+                        <div className="font-mono text-sm">TICKET-{ticket.id}</div>
+                        <div>{ticket.title}</div>
+                        <div className="sm:hidden">
+                          <Badge 
+                            variant="secondary"
+                            className="rounded-full"
+                          >
+                            {ticket.status}
+                          </Badge>
+                        </div>
+                      </Link>
+                    </TableCell>
+                    <TableCell className="hidden sm:table-cell">
                       <Badge 
-                        variant={ticket.status === "Resolved" ? "success" : "secondary"}
+                        variant="secondary"
                         className="rounded-full"
                       >
                         {ticket.status}
                       </Badge>
-                    </div>
-                  </Link>
-                </TableCell>
-                <TableCell className="hidden sm:table-cell">
-                  <Badge 
-                    variant={ticket.status === "Resolved" ? "success" : "secondary"}
-                    className="rounded-full"
-                  >
-                    {ticket.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="hidden md:table-cell">
-                  {ticket.assignee ? (
-                    <div className="flex items-center gap-2">
-                      <div className="flex flex-col">
-                        <div className="font-medium">
-                          {ticket.assignee === "0" ? (
-                            "Unknown"
-                          ) : (
-                            <StaffName staffId={ticket.assignee} />
-                          )}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {ticket.assignee ? (
+                        <div className="flex items-center gap-2">
+                          <div className="flex flex-col">
+                            <div className="font-medium">
+                              {ticket.assignee === "0" ? (
+                                "Unknown"
+                              ) : (
+                                <StaffName staffId={ticket.assignee} />
+                              )}
+                            </div>
+                            <div className="text-sm text-muted-foreground">
+                              {ticket.assignee === "0" ? "" : ""}
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-sm text-muted-foreground">
-                          {ticket.assignee === "0" ? "" : ""}
-                        </div>
+                      ) : (
+                        "-"
+                      )}
+                    </TableCell>
+                    <TableCell className="hidden lg:table-cell">{ticket.dateOpened}</TableCell>
+                    <TableCell className="hidden xl:table-cell">
+                      <div className="flex gap-2">
+                        {ticket.tags.map((tag) => (
+                          <Badge key={tag} variant="outline" className="rounded-full">
+                            {tag}
+                          </Badge>
+                        ))}
                       </div>
-                    </div>
-                  ) : (
-                    "-"
-                  )}
-                </TableCell>
-                <TableCell className="hidden lg:table-cell">{ticket.dateOpened}</TableCell>
-                <TableCell className="hidden xl:table-cell">
-                  <div className="flex gap-2">
-                    {ticket.tags.map((tag) => (
-                      <Badge key={tag} variant="outline" className="rounded-full">
-                        {tag}
-                      </Badge>
-                    ))}
+                    </TableCell>
                   </div>
-                </TableCell>
-              </motion.tr>
-            ))}
-          </AnimatePresence>
-        </TableBody>
-      </Table>
+                </motion.tr>
+              ))}
+            </AnimatePresence>
+          </TableBody>
+        </Table>
+      </div>
     </motion.div>
   )
 }

@@ -16,30 +16,32 @@ export default function TicketNotFound() {
         >
           <Ticket className="w-24 h-24 text-primary mx-auto mb-6" />
         </motion.div>
-        <motion.h1
-          className="text-4xl font-bold mb-2"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-        >
-          404 - Ticket Not Found
-        </motion.h1>
+          <motion.h1
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <div className="text-4xl font-bold mb-2">
+              404 - Ticket Not Found
+            </div>
+          </motion.h1>
         <motion.p
-          className="text-xl text-muted-foreground mb-8"
+          
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          We couldn't find the ticket you're looking for. It may have been resolved or deleted.
+          <div className="text-xl text-muted-foreground mb-8">
+            We couldn't find the ticket you're looking for. It may have been resolved or deleted.
+          </div>
         </motion.p>
         <motion.div
-          className="space-y-4"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
           <Link href="/tickets">
-            <Button className="rounded-full mr-4">
+            <Button className="rounded-full mr-4 space-y-4">
               <ArrowLeft className="mr-2 h-4 w-4" /> Back to all tickets
             </Button>
           </Link>
