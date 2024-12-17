@@ -125,7 +125,6 @@ export function TicketList() {
                   exit={{ opacity: 0 }}
                   whileHover={{ backgroundColor: "rgba(255,0,0,0.05)" }} 
                 >
-                  <div className="cursor-pointer transition-colors duration-200">
                     <TableCell className="font-medium">
                       <Link href={`/tickets/${ticket.id}`} className="block space-y-1">
                         <div className="font-mono text-sm">TICKET-{ticket.id}</div>
@@ -178,7 +177,6 @@ export function TicketList() {
                         ))}
                       </div>
                     </TableCell>
-                  </div>
                 </motion.tr>
               ))}
             </AnimatePresence>
