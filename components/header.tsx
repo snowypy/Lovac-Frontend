@@ -1,11 +1,12 @@
 'use client'
 
-import { Bookmark, User } from 'lucide-react'
+import { Bookmark, Search, User } from 'lucide-react'
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { MobileMenu } from "@/components/mobile-menu"
 import { NotificationDropdown } from "@/components/notification-dropdown"
+import { SearchCommandPalette } from "@/components/search-command-palette"
 
 export function Header() {
   return (
@@ -30,6 +31,7 @@ export function Header() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <SearchCommandPalette />
             <NotificationDropdown />
             <Button variant="ghost" size="icon" className="rounded-full hidden sm:flex">
               <Bookmark className="h-4 w-4" />
