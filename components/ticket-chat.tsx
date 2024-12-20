@@ -27,7 +27,17 @@ interface Message {
   authorAvatar: string
   date: string
   message: string
+  staffRole: string
 }
+
+const staffRoleColors: Record<string, string> = {
+  Owner: '#ffd700',
+  Manager: '#d82f65',
+  Admin: '#e0283e',
+  Support: '#4a77f1',
+  Moderator: '#22ca4a',
+  Developer: '#6449c6',
+};
 
 export function TicketChat({ ticketId }: { ticketId: string }) {
   const [showCommands, setShowCommands] = useState(false)
@@ -39,6 +49,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
   const [closeReason, setCloseReason] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [isAssigned, setIsAssigned] = useState(false)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -71,6 +82,13 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
     };
 
     fetchMessages();
+    intervalRef.current = setInterval(fetchMessages, 15000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
   }, [ticketId]);
 
   const handleSendMessage = async () => {
@@ -126,6 +144,37 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
     }
 
     setInputValue('');
+    setTimeout(() => {
+      const fetchMessages = async () => {
+        try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/messages`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ staffId: '1', ticketId })
+          });
+
+          if (!response.ok) {
+            throw new Error(`Failed to fetch messages: ${response.statusText}`);
+          }
+
+          const data = await response.json();
+          setMessages(data);
+        } catch (err: unknown) {
+          if (err instanceof Error) {
+            console.error('Failed to fetch messages:', err.message);
+            setError(err.message);
+          } else {
+            console.error('Failed to fetch messages:', err);
+            setError('An unknown error occurred');
+          }
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchMessages();
+    }, 1000);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -280,7 +329,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
               </Avatar>
               <div className="space-y-2 flex-1">
                 <div className="flex items-center gap-2">
-                  <span className="font-medium">{message.username}</span>
+                  <span style={{ color: staffRoleColors[message.staffRole] || '' }} className={`font-medium text-${staffRoleColors[message.staffRole]}`}>{message.username}</span>
                   <span className="text-sm text-muted-foreground">{new Date(message.date).toLocaleString()}</span>
                 </div>
                 <div className="text-sm">{message.message}</div>
