@@ -1,14 +1,27 @@
+'use client'
+
 import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import './globals.css'
+import { useEffect } from 'react';
+import { getStaffIdFromCookie } from '../lib/utils';
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  useEffect(() => {
+    const staffId = getStaffIdFromCookie();
+    console.log('staffId:', staffId);
+    const isSignInPage = window.location.pathname === '/signin';
+    if (!staffId && !isSignInPage) {
+      window.location.href = '/signin';
+    }
+  }, []);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -34,4 +47,3 @@ export default function RootLayout({
     </html>
   )
 }
-
