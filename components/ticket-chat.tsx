@@ -1,6 +1,3 @@
-// This component is using areas of demo logic and will be updated soon.
-// Author: SnowyJS (https://snowyjs.lol)
-
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
@@ -19,7 +16,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
-
+import { getStaffIdFromCookie } from '../lib/utils';
 
 interface Message {
   author: string
@@ -54,12 +51,13 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
+        const staffId = getStaffIdFromCookie();
         const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/messages`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ staffId: '1', ticketId })
+          body: JSON.stringify({ staffId, ticketId })
         });
 
         if (!response.ok) {
@@ -95,12 +93,13 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
     if (!inputValue.trim()) return;
 
     try {
+      const staffId = getStaffIdFromCookie();
       const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/new-message`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ staffId: '1', ticketId, body: inputValue })
+        body: JSON.stringify({ staffId, ticketId, body: inputValue })
       });
 
       if (!response.ok) {
@@ -116,7 +115,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ staffId: '1', ticketId }) // UNFINISHED
+            body: JSON.stringify({ staffId, ticketId })
           });
 
           if (!response.ok) {
@@ -147,12 +146,13 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
     setTimeout(() => {
       const fetchMessages = async () => {
         try {
+          const staffId = getStaffIdFromCookie();
           const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/messages`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ staffId: '1', ticketId })
+            body: JSON.stringify({ staffId, ticketId })
           });
 
           if (!response.ok) {
@@ -211,7 +211,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ staffId: '1', ticketId })
+          body: JSON.stringify({ staffId: getStaffIdFromCookie(), ticketId })
         });
 
         if (!unassignResponse.ok) {
@@ -226,7 +226,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ staffId: '1', staffUsername: 'snowyjs', ticketId })
+          body: JSON.stringify({ staffId: getStaffIdFromCookie(), staffUsername: 'snowyjs', ticketId })
         });
 
         if (!responses.ok) {
@@ -257,7 +257,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          staffId: '1',
+          staffId: getStaffIdFromCookie(),
           staffUsername: 'snowyjs',
           ticketId,
           reason: closeReason
