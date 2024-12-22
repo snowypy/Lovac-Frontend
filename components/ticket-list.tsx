@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { getStaffIdFromCookie } from '../lib/utils';
 
 interface Ticket {
   id: string
@@ -79,7 +80,13 @@ export function TicketList() {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tickets`)
+        const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tickets`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+
         if (!response.ok) {
           throw new Error('Network response was not ok')
         }
