@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Plus, X } from 'lucide-react'
+import { getStaffIdFromCookie } from '../lib/utils';
 
 interface Ticket {
   id: string
@@ -47,6 +48,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
         setTicket(ticketData)
 
         if (ticketData.assignee !== "0") {
+          const restaffId = getStaffIdFromCookie()
           const staffResponse = await fetch(
             `${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/staff/check-staff`,
             {
@@ -54,9 +56,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({
-                staffId: ticketData.assignee,
-              }),
+              body: JSON.stringify({ staffId: ticketData.assignee || restaffId }),
             }
           )
           const staffData = await staffResponse.json()
