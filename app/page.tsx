@@ -29,18 +29,6 @@ const TicketsPage = () => {
           secure: true
         });
 
-        fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/auth/staffId', {
-          method: 'GET',
-          credentials: 'include',
-        })
-        .then(response => response.json())
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-
       } else {
         console.error('No staffId found in cookie.');
         window.location.href = '/signin';
