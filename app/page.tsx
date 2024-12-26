@@ -1,7 +1,7 @@
 'use client'
 
 import './globals.css'
-import { Suspense, useEffect } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useRouter } from 'next/router';
 import { TicketList } from "@/components/ticket-list"
 import { TicketFilters } from "@/components/ticket-filters"
@@ -9,18 +9,25 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { getStaffIdFromCookie } from '@/lib/utils'
 
 export default function TicketsPage() {
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
-    const staffId = getStaffIdFromCookie();
-    if (staffId) {
-      console.log('Staff ID:', staffId);
-      document.cookie = `staffId=${staffId}; path=/;`;
-    } else {
-      console.error('No staffId found in cookie.');
-      router.push('/signin');
+    setIsMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (isMounted) {
+      const staffId = getStaffIdFromCookie();
+      if (staffId) {
+        console.log('Staff ID:', staffId);
+        document.cookie = `staffId=${staffId}; path=/;`;
+      } else {
+        console.error('No staffId found in cookie.');
+        router.push('/signin');
+      }
     }
-  }, [router]);
+  }, [isMounted, router]);
 
   return (
     <div className="container mx-auto px-4 py-8 bg-card">
