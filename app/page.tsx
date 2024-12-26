@@ -10,7 +10,6 @@ import { getStaffIdFromCookie } from '@/lib/utils'
 
 const TicketsPage = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     setIsMounted(true);
@@ -37,10 +36,10 @@ const TicketsPage = () => {
 
       } else {
         console.error('No staffId found in cookie.');
-        router.push('/signin');
+        window.location.href = '/signin';
       }
     }
-  }, [isMounted, router]);
+  }, [isMounted]);
 
   return (
     <div className="container mx-auto px-4 py-8 bg-card">
