@@ -18,16 +18,16 @@ const TicketsPage = () => {
 
   useEffect(() => {
     if (isMounted) {
-      const staffIds = getStaffIdFromCookie();
-      if (staffIds) {
-        console.log('Staff ID:', staffIds);
+      const staffId = getStaffIdFromCookie();
+      if (staffId) {
+        console.log('Staff ID:', staffId);
         
-        Cookies.set('staffIds', staffIds, {
-          expires: 14,
-          path: '/',
-          sameSite: 'none',
-          secure: true
-        });
+        //Cookies.set('staffId', staffId, {
+        //  expires: 14,
+        //  path: '/',
+        //  sameSite: 'none',
+        //  secure: true
+        //});
 
       } else {
         console.error('No staffId found in cookie.');
