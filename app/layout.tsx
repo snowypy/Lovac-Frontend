@@ -15,7 +15,7 @@ export default function RootLayout({
   useEffect(() => {
     const cookies = document.cookie;
     console.log('All cookies:', cookies);
-    const staffId = cookies.split('; ').find(row => row.startsWith('staffId='))?.split('=')[1];
+    const staffId = getStaffIdFromCookie();
     console.log('staffId:', staffId);
 
     if (!cookies) {
