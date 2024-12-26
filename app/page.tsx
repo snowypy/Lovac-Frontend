@@ -8,7 +8,7 @@ import { TicketFilters } from "@/components/ticket-filters"
 import { Skeleton } from "@/components/ui/skeleton"
 import { getStaffIdFromCookie } from '@/lib/utils'
 
-export default function TicketsPage() {
+const TicketsPage = () => {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
@@ -58,3 +58,5 @@ export default function TicketsPage() {
     </div>
   )
 }
+
+export default TicketsPage;
