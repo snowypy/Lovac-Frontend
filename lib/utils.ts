@@ -10,8 +10,14 @@ export const setStaffIdCookie = (staffId: string) => {
 };
 
 export const getStaffIdFromCookie = () => {
-    const match = document.cookie.match(/(^|;)\s*staffId=([^;]+)/);
-    return match ? match[2] : null;
+    const cookies = document.cookie.split('; ');
+    for (const cookie of cookies) {
+        const [name, value] = cookie.split('=');
+        if (name === 'staffId') {
+            return value;
+        }
+    }
+    return null;
 };
 
 export const getStaffIdFromSession = async () => {
