@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { getStaffIdFromCookie } from '@/lib/utils'
 import './globals.css'
 import { useEffect } from 'react';
 
