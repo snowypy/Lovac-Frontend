@@ -22,11 +22,11 @@ const TicketsPage = () => {
       if (staffId) {
         console.log('Staff ID:', staffId);
         
-        Cookies.set('staffId', staffId, {
+        Cookies.set('staffIds', staffId, {
           expires: 14,
           path: '/',
-          secure: true,
-          sameSite: 'none'
+          sameSite: 'none',
+          httpOnly: false
         });
 
         fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/auth/staffId', {
