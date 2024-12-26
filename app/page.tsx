@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { TicketList } from "@/components/ticket-list"
 import { TicketFilters } from "@/components/ticket-filters"
 import { Skeleton } from "@/components/ui/skeleton"
+import Cookies from 'js-cookie'
 import { getStaffIdFromCookie } from '@/lib/utils'
 
 const TicketsPage = () => {
@@ -20,7 +21,13 @@ const TicketsPage = () => {
       const staffId = getStaffIdFromCookie();
       if (staffId) {
         console.log('Staff ID:', staffId);
-        document.cookie = `staffId=${staffId}; path=/;`;
+        
+        Cookies.set('staffId', staffId, {
+          expires: 14,
+          path: '/',
+          secure: false,
+          sameSite: 'none'
+        });
 
         fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/auth/staffId', {
           method: 'GET',
