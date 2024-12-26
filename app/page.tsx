@@ -26,6 +26,7 @@ const TicketsPage = () => {
           expires: 14,
           path: '/',
           secure: false,
+          httpOnly: false,
           sameSite: 'none'
         });
 
