@@ -17,6 +17,11 @@ export default function RootLayout({
     console.log('All cookies:', cookies);
     const staffId = cookies.split('; ').find(row => row.startsWith('staffId='))?.split('=')[1];
     console.log('staffId:', staffId);
+
+    if (!cookies) {
+      console.log('No cookies found. Ensure the cookie is set correctly and is not HttpOnly.');
+    }
+
     const isSignInPage = window.location.pathname === '/signin';
     if (!staffId && !isSignInPage) {
       window.location.href = '/signin';
