@@ -1,10 +1,25 @@
 import './globals.css'
-import { Suspense } from "react"
+import { Suspense, useEffect } from "react"
+import { useRouter } from 'next/router';
 import { TicketList } from "@/components/ticket-list"
 import { TicketFilters } from "@/components/ticket-filters"
 import { Skeleton } from "@/components/ui/skeleton"
+import { getStaffIdFromCookie } from '@/lib/utils'
 
 export default function TicketsPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const staffId = getStaffIdFromCookie();
+    if (staffId) {
+      console.log('Staff ID:', staffId);
+      document.cookie = `staffId=${staffId}; path=/;`;
+    } else {
+      console.error('No staffId found in cookie.');
+      router.push('/signin');
+    }
+  }, [router]);
+
   return (
     <div className="container mx-auto px-4 py-8 bg-card">
       <h1 className="text-3xl font-bold mb-8">Tickets</h1>
