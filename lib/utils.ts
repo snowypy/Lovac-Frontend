@@ -11,7 +11,7 @@ export const setStaffIdCookie = (staffId: string) => {
 };
 
 export const getStaffIdFromCookie = () => {
-    cookie = Cookies.get('staffId');
+    const cookie = Cookies.get('staffId');
     if (cookie) {
         return cookie;
     }
