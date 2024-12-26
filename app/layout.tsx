@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   useEffect(() => {
-    const staffId = getStaffIdFromCookie();
+    const staffId = document.cookie.split('; ').find(row => row.startsWith('staffId='))?.split('=')[1];
     console.log('staffId:', staffId);
     const isSignInPage = window.location.pathname === '/signin';
     if (!staffId && !isSignInPage) {
