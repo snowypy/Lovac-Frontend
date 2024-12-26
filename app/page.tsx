@@ -26,7 +26,7 @@ const TicketsPage = () => {
           expires: 14,
           path: '/',
           sameSite: 'none',
-          httpOnly: false
+          secure: true
         });
 
         fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/auth/staffId', {
