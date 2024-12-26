@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import Cookies from 'js-cookie'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -10,12 +11,9 @@ export const setStaffIdCookie = (staffId: string) => {
 };
 
 export const getStaffIdFromCookie = () => {
-    const cookies = document.cookie.split('; ');
-    for (const cookie of cookies) {
-        const [name, value] = cookie.split('=');
-        if (name === 'staffId') {
-            return value;
-        }
+    cookie = Cookies.get('staffId');
+    if (cookie) {
+        return cookie;
     }
     return null;
 };
