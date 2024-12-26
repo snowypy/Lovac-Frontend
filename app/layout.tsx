@@ -6,7 +6,6 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import './globals.css'
 import { useEffect } from 'react';
-import { getStaffIdFromCookie } from '../lib/utils';
 
 export default function RootLayout({
   children,
@@ -14,7 +13,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   useEffect(() => {
-    const staffId = document.cookie.split('; ').find(row => row.startsWith('staffId='))?.split('=')[1];
+    const cookies = document.cookie;
+    console.log('All cookies:', cookies);
+    const staffId = cookies.split('; ').find(row => row.startsWith('staffId='))?.split('=')[1];
     console.log('staffId:', staffId);
     const isSignInPage = window.location.pathname === '/signin';
     if (!staffId && !isSignInPage) {
