@@ -25,8 +25,7 @@ const TicketsPage = () => {
         Cookies.set('staffId', staffId, {
           expires: 14,
           path: '/',
-          secure: false,
-          httpOnly: false,
+          secure: true,
           sameSite: 'none'
         });
 
