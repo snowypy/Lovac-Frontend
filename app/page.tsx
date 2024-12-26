@@ -18,11 +18,11 @@ const TicketsPage = () => {
 
   useEffect(() => {
     if (isMounted) {
-      const staffId = getStaffIdFromCookie();
-      if (staffId) {
-        console.log('Staff ID:', staffId);
+      const staffIds = getStaffIdFromCookie();
+      if (staffIds) {
+        console.log('Staff ID:', staffIds);
         
-        Cookies.set('staffIds', staffId, {
+        Cookies.set('staffIds', staffIds, {
           expires: 14,
           path: '/',
           sameSite: 'none',

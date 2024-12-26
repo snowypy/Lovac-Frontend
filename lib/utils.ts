@@ -6,10 +6,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const setStaffIdCookie = (staffId: string) => {
-    document.cookie = `staffId=${staffId}; path=/;`;
-};
-
 export const getStaffIdFromCookie = () => {
     const cookie = Cookies.get('staffId');
     if (cookie) {
