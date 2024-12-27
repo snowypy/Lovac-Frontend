@@ -92,7 +92,6 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
       })
       
       if (response.ok) {
-        const data = await response.json()
         setTicket(prev => prev ? {
           ...prev,
           tags: [...prev.tags, tagId.toString()]
