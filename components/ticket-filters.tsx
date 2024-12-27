@@ -6,6 +6,7 @@
 import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { getStaffIdFromCookie } from "@/lib/utils"
 
 export function TicketFilters() {
   return (
@@ -15,16 +16,38 @@ export function TicketFilters() {
     >
       <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
         <Button variant="secondary" className="whitespace-nowrap rounded-full">
-          All <Badge variant="secondary" className="ml-2 rounded-full">2</Badge>
+          All <Badge variant="secondary" className="ml-2 rounded-full">
+            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/all')
+              .then(r => r.json())
+              .then(data => data.length)}
+          </Badge>
         </Button>
         <Button variant="ghost" className="whitespace-nowrap rounded-full">
-          Open <Badge variant="outline" className="ml-2 rounded-full">1</Badge>
+          Open <Badge variant="outline" className="ml-2 rounded-full">
+            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/open')
+              .then(r => r.json())
+              .then(data => data.length)}
+          </Badge>
         </Button>
         <Button variant="ghost" className="whitespace-nowrap rounded-full">
-          Unassigned <Badge variant="outline" className="ml-2 rounded-full">0</Badge>
+          Unassigned <Badge variant="outline" className="ml-2 rounded-full">
+            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/unassigned')
+              .then(r => r.json())
+              .then(data => data.length)}
+          </Badge>
         </Button>
         <Button variant="ghost" className="whitespace-nowrap rounded-full">
-          Assigned to me <Badge variant="outline" className="ml-2 rounded-full">1</Badge>
+          Assigned to me <Badge variant="outline" className="ml-2 rounded-full">
+            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/assigned', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ staffId: getStaffIdFromCookie() }),
+            })
+              .then(r => r.json())
+              .then(data => data.length)}
+          </Badge>
         </Button>
       </div>
     </motion.div>
