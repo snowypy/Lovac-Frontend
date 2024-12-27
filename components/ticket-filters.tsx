@@ -17,21 +17,37 @@ export function TicketFilters() {
       <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
         <Button variant="secondary" className="whitespace-nowrap rounded-full">
           All <Badge variant="secondary" className="ml-2 rounded-full">
-            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/all')
+          {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/all', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            })
               .then(r => r.json())
               .then(data => data.length)}
           </Badge>
         </Button>
         <Button variant="ghost" className="whitespace-nowrap rounded-full">
           Open <Badge variant="outline" className="ml-2 rounded-full">
-            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/open')
+            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/open', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              }
+            })
               .then(r => r.json())
               .then(data => data.length)}
           </Badge>
         </Button>
         <Button variant="ghost" className="whitespace-nowrap rounded-full">
           Unassigned <Badge variant="outline" className="ml-2 rounded-full">
-            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/unassigned')
+            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/unassigned', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ staffId: getStaffIdFromCookie() }),
+            })
               .then(r => r.json())
               .then(data => data.length)}
           </Badge>
