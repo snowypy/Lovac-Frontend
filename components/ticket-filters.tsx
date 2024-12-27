@@ -19,9 +19,6 @@ export function TicketFilters() {
           All <Badge variant="secondary" className="ml-2 rounded-full">
           {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/all', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              }
             })
               .then(r => r.json())
               .then(data => data.length)}
@@ -31,9 +28,6 @@ export function TicketFilters() {
           Open <Badge variant="outline" className="ml-2 rounded-full">
             {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/open', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              }
             })
               .then(r => r.json())
               .then(data => data.length)}
@@ -43,10 +37,6 @@ export function TicketFilters() {
           Unassigned <Badge variant="outline" className="ml-2 rounded-full">
             {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/unassigned', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ staffId: getStaffIdFromCookie() }),
             })
               .then(r => r.json())
               .then(data => data.length)}
