@@ -12,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { getStaffIdFromCookie } from '../lib/utils';
 
 interface Ticket {
   id: string
