@@ -17,34 +17,28 @@ export function TicketFilters() {
       <div className="flex items-center gap-4 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
         <Button variant="secondary" className="whitespace-nowrap rounded-full">
           All <Badge variant="secondary" className="ml-2 rounded-full">
-          {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/all', {
-              method: 'POST',
-            })
+            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/ticketdata/all')
               .then(r => r.json())
               .then(data => data.length)}
           </Badge>
         </Button>
         <Button variant="ghost" className="whitespace-nowrap rounded-full">
           Open <Badge variant="outline" className="ml-2 rounded-full">
-            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/open', {
-              method: 'POST',
-            })
+            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/ticketdata/open')
               .then(r => r.json())
               .then(data => data.length)}
           </Badge>
         </Button>
         <Button variant="ghost" className="whitespace-nowrap rounded-full">
           Unassigned <Badge variant="outline" className="ml-2 rounded-full">
-            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/unassigned', {
-              method: 'POST',
-            })
+            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/ticketdata/unassigned')
               .then(r => r.json())
               .then(data => data.length)}
           </Badge>
         </Button>
         <Button variant="ghost" className="whitespace-nowrap rounded-full">
           Assigned to me <Badge variant="outline" className="ml-2 rounded-full">
-            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/tickets/assigned', {
+            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/ticketdata/assigned', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
