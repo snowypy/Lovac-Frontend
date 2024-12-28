@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import TicketFilters from '@/components/ticket-filters';
+import { TicketFilters } from '@/components/ticket-filters';
 
 interface Ticket {
   id: string
@@ -76,7 +76,7 @@ const StaffName: React.FC<StaffNameProps> = ({ staffId }) => {
 export function TicketList() {
   const [tickets, setTickets] = useState<Ticket[]>([])
   const [loading, setLoading] = useState(true)
-  const [filterType, setFilterType] = useState('open');
+  const [filterType] = useState('open');
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -113,7 +113,7 @@ export function TicketList() {
       animate={{ y: 0, opacity: 1 }}
     >
       <div className="rounded-2xl border overflow-hidden">
-        <TicketFilters onFilterChange={setFilterType} />
+        <TicketFilters/>
         <Table className="dark:bg-gray-900">
           <TableHeader>
             <TableRow>
