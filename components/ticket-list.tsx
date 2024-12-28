@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import TicketFilters from './ticket-filters';
 
 interface Ticket {
   id: string
@@ -75,11 +76,12 @@ const StaffName: React.FC<StaffNameProps> = ({ staffId }) => {
 export function TicketList() {
   const [tickets, setTickets] = useState<Ticket[]>([])
   const [loading, setLoading] = useState(true)
+  const [filterType, setFilterType] = useState('open');
 
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tickets`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tickets?type=${filterType}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -99,7 +101,7 @@ export function TicketList() {
     }
 
     fetchTickets()
-  }, [])
+  }, [filterType])
 
   if (loading) {
     return <div>Loading...</div>
@@ -111,6 +113,7 @@ export function TicketList() {
       animate={{ y: 0, opacity: 1 }}
     >
       <div className="rounded-2xl border overflow-hidden">
+        <TicketFilters onFilterChange={setFilterType} />
         <Table className="dark:bg-gray-900">
           <TableHeader>
             <TableRow>
