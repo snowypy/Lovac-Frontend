@@ -81,7 +81,7 @@ export function TicketList() {
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tickets?type=${filterType}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/alltickets`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
