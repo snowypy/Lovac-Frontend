@@ -12,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { TicketFilters } from '@/components/ticket-filters';
 
 interface Ticket {
   id: string
@@ -113,7 +112,6 @@ export function TicketList() {
       animate={{ y: 0, opacity: 1 }}
     >
       <div className="rounded-2xl border overflow-hidden">
-        <TicketFilters/>
         <Table className="dark:bg-gray-900">
           <TableHeader>
             <TableRow>
