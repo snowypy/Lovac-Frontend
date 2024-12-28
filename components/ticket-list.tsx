@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import TicketFilters from './ticket-filters';
+import TicketFilters from '@/components/ticket-filters';
 
 interface Ticket {
   id: string
