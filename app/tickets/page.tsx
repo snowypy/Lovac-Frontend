@@ -1,6 +1,5 @@
 'use client'
 
-import './globals.css'
 import { Suspense, useEffect, useState } from "react"
 import { useRouter } from 'next/router';
 import { TicketList } from "@/components/ticket-list"
