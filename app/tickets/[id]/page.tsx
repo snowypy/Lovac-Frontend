@@ -1,49 +1,42 @@
-'use client'
-
-import { Suspense, useEffect, useState } from "react"
-import { TicketList } from "@/components/ticket-list"
-import { TicketFilters } from "@/components/ticket-filters"
+import { Suspense } from "react"
+import { ChevronLeft, Download } from 'lucide-react'
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { getStaffIdFromCookie } from '@/lib/utils'
-import { TicketProvider } from '@/contexts/ticket-context'
+import { TicketChat } from "@/components/ticket-chat"
+import { TicketInfo } from "@/components/ticket-info"
 
-const TicketsPage = () => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (isMounted) {
-      const staffId = getStaffIdFromCookie();
-      if (staffId) {
-        console.log('Staff ID:', staffId);
-
-      } else {
-        console.error('No staffId found in cookie.');
-        window.location.href = '/signin';
-      }
-    }
-  }, [isMounted]);
-
+export default async function TicketPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
   return (
-    <div className="container mx-auto px-4 py-8 bg-card">
-      <h1 className="text-3xl font-bold mb-8">Tickets</h1>
-      <div className="space-y-8">
-        <Suspense fallback={<Skeleton className="h-10 w-full rounded-full" />}>  
-          <TicketProvider>
-            <TicketFilters/>
-            <div className="container mx-auto px-4 py-8 bg-card">
-              <Suspense fallback={<Skeleton className="h-[500px] w-full rounded-2xl" />}>  
-                <TicketList />
-              </Suspense>
-            </div>
-          </TicketProvider>
-        </Suspense>
+    <div className="min-h-screen bg-background dark:bg-gray-900">
+      <header className="border-b dark:border-gray-800">
+        <div className="container mx-auto px-4 flex items-center gap-4 h-16">
+          <Link href="/">
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+          </Link>
+          <div className="flex-1 min-w-0">
+            <h1 className="text-lg font-semibold truncate">TICKET-{resolvedParams.id}</h1>
+            <p className="text-sm text-muted-foreground truncate">User Appeal</p>
+          </div>
+          <Button variant="outline" size="sm" className="rounded-full whitespace-nowrap">
+            <Download className="h-4 w-4 mr-2" />
+            <span className="hidden sm:inline">Download Transcript</span>
+          </Button>
+        </div>
+      </header>
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid lg:grid-cols-[1fr_300px] gap-6">
+          <Suspense fallback={<Skeleton className="h-[600px] rounded-2xl" />}>
+            <TicketChat ticketId={resolvedParams.id} />
+          </Suspense>
+          <Suspense fallback={<Skeleton className="h-[400px] rounded-2xl" />}>
+            <TicketInfo ticketId={resolvedParams.id} />
+          </Suspense>
+        </div>
       </div>
     </div>
   )
 }
-
-export default TicketsPage;

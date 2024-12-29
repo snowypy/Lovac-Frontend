@@ -9,7 +9,7 @@ interface TicketContextType {
   setFilterType: (type: TicketFilterType) => void;
 }
 
-const TicketContext = createContext<TicketContextType | undefined>(undefined);
+const TicketContext = createContext<TicketContextType | null>(null);
 
 export function TicketProvider({ children }: { children: React.ReactNode }) {
   const [filterType, setFilterType] = useState<TicketFilterType>('all');
@@ -23,7 +23,7 @@ export function TicketProvider({ children }: { children: React.ReactNode }) {
 
 export function useTicketContext() {
   const context = useContext(TicketContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useTicketContext must be used within a TicketProvider');
   }
   return context;
