@@ -1,12 +1,64 @@
 'use client'
 
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useTicketContext } from '@/contexts/ticket-context'
+import { getStaffIdFromCookie } from '@/lib/utils'
 
 export function TicketFilters() {
   const { filterType, setFilterType } = useTicketContext();
+  const [counts, setCounts] = useState({
+    all: 0,
+    open: 0,
+    unassigned: 0,
+    assigned: 0
+  });
+
+  useEffect(() => {
+    const fetchCounts = async () => {
+      try {
+        const staffId = getStaffIdFromCookie();
+        if (!staffId) {
+          console.error('No staffId found in cookie.');
+          return;
+        }
+
+        const [allRes, openRes, unassignedRes] = await Promise.all([
+          fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/ticketdata/all`),
+          fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/ticketdata/open`),
+          fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/ticketdata/unassigned`)
+        ]);
+
+        const assignedRes = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/ticketdata/assigned`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ staffId }),
+        });
+
+        const [all, open, unassigned, assigned] = await Promise.all([
+          allRes.json(),
+          openRes.json(),
+          unassignedRes.json(),
+          assignedRes.json()
+        ]);
+
+        setCounts({
+          all: all.length,
+          open: open.length,
+          unassigned: unassigned.length,
+          assigned: assigned.length
+        });
+      } catch (error) {
+        console.error('Error fetching ticket counts:', error);
+      }
+    };
+
+    fetchCounts();
+  }, []);
 
   return (
     <motion.div 
@@ -20,9 +72,7 @@ export function TicketFilters() {
           onClick={() => setFilterType('all')}
         >
           All <Badge variant={filterType === 'all' ? "secondary" : "outline"} className="ml-2 rounded-full">
-            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/ticketdata/all')
-              .then(r => r.json())
-              .then(data => data.length)}
+            {counts.all}
           </Badge>
         </Button>
         <Button 
@@ -31,9 +81,7 @@ export function TicketFilters() {
           onClick={() => setFilterType('open')}
         >
           Open <Badge variant={filterType === 'open' ? "secondary" : "outline"} className="ml-2 rounded-full">
-            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/ticketdata/open')
-              .then(r => r.json())
-              .then(data => data.length)}
+            {counts.open}
           </Badge>
         </Button>
         <Button 
@@ -42,9 +90,7 @@ export function TicketFilters() {
           onClick={() => setFilterType('unassigned')}
         >
           Unassigned <Badge variant={filterType === 'unassigned' ? "secondary" : "outline"} className="ml-2 rounded-full">
-            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/ticketdata/unassigned')
-              .then(r => r.json())
-              .then(data => data.length)}
+            {counts.unassigned}
           </Badge>
         </Button>
         <Button 
@@ -53,9 +99,7 @@ export function TicketFilters() {
           onClick={() => setFilterType('assigned')}
         >
           Assigned <Badge variant={filterType === 'assigned' ? "secondary" : "outline"} className="ml-2 rounded-full">
-            {fetch(process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL + '/ticketdata/assigned')
-              .then(r => r.json())
-              .then(data => data.length)}
+            {counts.assigned}
           </Badge>
         </Button>
       </div>
