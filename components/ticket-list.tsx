@@ -12,6 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { useTicketContext } from '@/contexts/ticket-context'
 
 interface Ticket {
   id: string
@@ -75,12 +76,13 @@ const StaffName: React.FC<StaffNameProps> = ({ staffId }) => {
 export function TicketList() {
   const [tickets, setTickets] = useState<Ticket[]>([])
   const [loading, setLoading] = useState(true)
-  const [filterType] = useState('open');
+  const { filterType } = useTicketContext();
 
   useEffect(() => {
     const fetchTickets = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/alltickets`, {
+        const endpoint = `${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/${filterType}tickets`;
+        const response = await fetch(endpoint, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
