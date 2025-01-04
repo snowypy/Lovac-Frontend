@@ -57,7 +57,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ staffId, ticketId })
+          body: JSON.stringify({ staffId, ticketId: Number(ticketId) })
         });
 
         if (!response.ok) {
