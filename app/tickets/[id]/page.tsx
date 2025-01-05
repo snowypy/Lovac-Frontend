@@ -1,3 +1,5 @@
+'use client'
+
 import { useRouter } from 'next/navigation';
 import { Suspense } from "react";
 import { ChevronLeft, Download } from 'lucide-react';
