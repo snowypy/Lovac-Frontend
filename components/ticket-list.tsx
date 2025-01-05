@@ -85,7 +85,7 @@ const TicketTags: React.FC<{ ticket: Ticket }> = ({ ticket }) => {
   useEffect(() => {
     const fetchTags = async () => {
       const fetchedTags = await Promise.all(ticket.tags.map(async (tagId) => {
-        const response = await fetch('/api/get-tag', {
+        const response = await fetch('/tags/get-tag', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
