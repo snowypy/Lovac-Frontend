@@ -40,7 +40,9 @@ export default function TicketPage() {
           <Suspense fallback={<Skeleton className="h-[600px] rounded-2xl" />}>
             <TicketChat ticketId={id as string} />
           </Suspense>
-          
+          <Suspense fallback={<Skeleton className="h-[400px] rounded-2xl" />}>
+            <TicketInfo ticketId={id as string} />
+          </Suspense>
         </div>
       </div>
     </div>
