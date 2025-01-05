@@ -6,8 +6,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { TicketChat } from "@/components/ticket-chat"
 import { TicketInfo } from "@/components/ticket-info"
 
-export default async function TicketPage({ params }: { params: { id: string } }) {
-  const resolvedParams = await params;
+export default function TicketPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   return (
     <div className="min-h-screen bg-background dark:bg-gray-900">
       <header className="border-b dark:border-gray-800">
@@ -18,7 +18,7 @@ export default async function TicketPage({ params }: { params: { id: string } })
             </Button>
           </Link>
           <div className="flex-1 min-w-0">
-            <h1 className="text-lg font-semibold truncate">TICKET-{resolvedParams.id}</h1>
+            <h1 className="text-lg font-semibold truncate">TICKET-{id}</h1>
             <p className="text-sm text-muted-foreground truncate">User Appeal</p>
           </div>
           <Button variant="outline" size="sm" className="rounded-full whitespace-nowrap">
@@ -30,10 +30,10 @@ export default async function TicketPage({ params }: { params: { id: string } })
       <div className="container mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-[1fr_300px] gap-6">
           <Suspense fallback={<Skeleton className="h-[600px] rounded-2xl" />}>
-            <TicketChat ticketId={resolvedParams.id} />
+            <TicketChat ticketId={id} />
           </Suspense>
           <Suspense fallback={<Skeleton className="h-[400px] rounded-2xl" />}>
-            <TicketInfo ticketId={resolvedParams.id} />
+            <TicketInfo ticketId={id} />
           </Suspense>
         </div>
       </div>
