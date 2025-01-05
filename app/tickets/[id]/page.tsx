@@ -6,7 +6,13 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { TicketChat } from "@/components/ticket-chat"
 import { TicketInfo } from "@/components/ticket-info"
 
-export default function TicketPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function TicketPage({ params }: PageProps) {
   const { id } = params;
   return (
     <div className="min-h-screen bg-background dark:bg-gray-900">
