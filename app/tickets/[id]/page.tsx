@@ -6,7 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { TicketChat } from "@/components/ticket-chat"
 import { TicketInfo } from "@/components/ticket-info"
 
-export default async function TicketPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function TicketPage({ params }: { params: { id: string } }) {
   const resolvedParams = await params;
   return (
     <div className="min-h-screen bg-background dark:bg-gray-900">
