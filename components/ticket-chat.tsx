@@ -44,9 +44,30 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
   const [error, setError] = useState<string | null>(null)
   const [showCloseDialog, setShowCloseDialog] = useState(false)
   const [closeReason, setCloseReason] = useState('')
+  const [isClosed, setIsClosed] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [isAssigned, setIsAssigned] = useState(false)
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
+
+  useEffect(() => {
+    const fetchTicketStatus = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tickets/${ticketId}`);
+        const ticketData = await response.json();
+        setIsClosed(ticketData.status === 'Closed');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error('Failed to fetch ticket status:', err.message);
+          setError(err.message);
+        } else {
+          console.error('Failed to fetch ticket status:', err);
+          setError('An unknown error occurred');
+        }
+      }
+    };
+
+    fetchTicketStatus();
+  }, [ticketId]);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -90,7 +111,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
   }, [ticketId]);
 
   const handleSendMessage = async () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || isClosed) return;
 
     try {
       const staffId = getStaffIdFromCookie();
@@ -198,6 +219,8 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
   }
 
   const handleCommand = async (command: string) => {
+    if (isClosed) return;
+
     switch (command) {
       case 'Appeal Format Snippet':
         setInputValue(inputValue + "\n\nAppeal Format:\n1. Reason for appeal:\n2. Evidence:\n3. Additional comments:")
@@ -250,6 +273,8 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
   }
 
   const handleForceClose = async () => {
+    if (isClosed) return;
+
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/force-close-ticket`, {
         method: 'POST',
@@ -319,7 +344,8 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
             key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            exit={{ opacity: 0 }}
+            whileHover={{ backgroundColor: "rgba(255,0,0,0.05)" }} 
           >
             <div className="flex gap-4">
               <Avatar className="h-8 w-8">
@@ -348,13 +374,14 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
             value={inputValue}
             onChange={handleInputChange}
             rows={1}
+            disabled={isClosed}
           />
           <AnimatePresence>
             {showCommands && (
               <CommandPalette onSelect={handleCommand} />
             )}
           </AnimatePresence>
-          <Button className="absolute bottom-2 right-2 rounded-full" onClick={handleSendMessage}>Send</Button>
+          <Button className="absolute bottom-2 right-2 rounded-full" onClick={handleSendMessage} disabled={isClosed}>Send</Button>
         </div>
         <AlertDialog open={showCloseDialog} onOpenChange={setShowCloseDialog}>
           <AlertDialogContent>
