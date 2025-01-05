@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation';
 import { Suspense } from "react";
 import { ChevronLeft, Download } from 'lucide-react';
 import Link from "next/link";
@@ -8,10 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TicketChat } from "@/components/ticket-chat";
 import { TicketInfo } from "@/components/ticket-info";
+import { useParams } from 'next/navigation';
 
 export default function TicketPage() {
-  const router = useRouter();
-  const { id } = router.query;
+  const { id } = useParams();
 
   if (!id) {
     return <div>Loading...</div>;
@@ -48,4 +47,4 @@ export default function TicketPage() {
       </div>
     </div>
   );
-}
+}};
