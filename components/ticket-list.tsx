@@ -74,6 +74,51 @@ const StaffName: React.FC<StaffNameProps> = ({ staffId }) => {
   )
 }
 
+interface Tag {
+  tagShort: string;
+  tagLong: string;
+}
+
+const TicketTags: React.FC<{ ticket: Ticket }> = ({ ticket }) => {
+  const [tags, setTags] = useState<Tag[]>([]);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      const fetchedTags = await Promise.all(ticket.tags.map(async (tagId) => {
+        const response = await fetch('/api/get-tag', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ tagId }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          return data;
+        } else {
+          console.error('Failed to fetch tag:', tagId);
+          return { tagShort: 'Unknown', tagLong: 'Unknown' };
+        }
+      }));
+
+      setTags(fetchedTags);
+    };
+
+    fetchTags();
+  }, [ticket.tags]);
+
+  return (
+    <>
+      {tags.map((tag, index) => (
+        <Badge key={index} variant="outline" className="rounded-full">
+          {tag.tagShort}
+        </Badge>
+      ))}
+    </>
+  );
+};
+
 export function TicketList() {
   const [tickets, setTickets] = useState<Ticket[]>([])
   const [loading, setLoading] = useState(true)
@@ -191,11 +236,7 @@ export function TicketList() {
                     <TableCell className="hidden lg:table-cell">{ticket.dateOpened}</TableCell>
                     <TableCell className="hidden xl:table-cell">
                       <div className="flex gap-2">
-                        {ticket.tags.map((tag) => (
-                          <Badge key={tag} variant="outline" className="rounded-full">
-                            {tag}
-                          </Badge>
-                        ))}
+                        <TicketTags ticket={ticket} />
                       </div>
                     </TableCell>
                 </motion.tr>
