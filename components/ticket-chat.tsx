@@ -211,7 +211,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ staffId: getStaffIdFromCookie(), ticketId })
+          body: JSON.stringify({ staffId: getStaffIdFromCookie(), ticketId: Number(ticketId) })
         });
 
         if (!unassignResponse.ok) {
@@ -226,7 +226,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ staffId: getStaffIdFromCookie(), staffUsername: 'snowyjs', ticketId })
+          body: JSON.stringify({ staffId: getStaffIdFromCookie(), ticketId: Number(ticketId) })
         });
 
         if (!responses.ok) {
@@ -258,8 +258,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
         },
         body: JSON.stringify({
           staffId: getStaffIdFromCookie(),
-          staffUsername: 'snowyjs',
-          ticketId,
+          ticketId: Number(ticketId),
           reason: closeReason
         })
       });
