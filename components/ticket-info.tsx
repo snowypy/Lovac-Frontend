@@ -114,7 +114,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          tagId: new ObjectId(tagId),
+          tagId,
           ticketId: ticket.id,
         }),
       })
