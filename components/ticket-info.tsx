@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { motion } from "framer-motion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ObjectId } from 'mongodb'
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -114,7 +113,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          tagId: new ObjectId(tagId),
+          tagId,
           ticketId: ticket.id,
         }),
       })
