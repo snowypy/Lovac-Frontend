@@ -47,7 +47,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
         const ticketData = await ticketResponse.json()
         setTicket(ticketData)
 
-        if (ticketData.assignee !== "0") {
+        if (ticketData.assignee && ticketData.assignee !== "0") {
           const restaffId = getStaffIdFromCookie()
           const staffResponse = await fetch(
             `${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/staff/check-staff`,
