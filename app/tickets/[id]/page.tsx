@@ -1,19 +1,20 @@
-import { Suspense } from "react"
-import { ChevronLeft, Download } from 'lucide-react'
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-import { TicketChat } from "@/components/ticket-chat"
-import { TicketInfo } from "@/components/ticket-info"
+import { useRouter } from 'next/router';
+import { Suspense } from "react";
+import { ChevronLeft, Download } from 'lucide-react';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { TicketChat } from "@/components/ticket-chat";
+import { TicketInfo } from "@/components/ticket-info";
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-}
+export default function TicketPage() {
+  const router = useRouter();
+  const { id } = router.query;
 
-export default function TicketPage({ params }: PageProps) {
-  const { id } = params;
+  if (!id) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="min-h-screen bg-background dark:bg-gray-900">
       <header className="border-b dark:border-gray-800">
@@ -36,13 +37,13 @@ export default function TicketPage({ params }: PageProps) {
       <div className="container mx-auto px-4 py-6">
         <div className="grid lg:grid-cols-[1fr_300px] gap-6">
           <Suspense fallback={<Skeleton className="h-[600px] rounded-2xl" />}>
-            <TicketChat ticketId={id} />
+            <TicketChat ticketId={id as string} />
           </Suspense>
           <Suspense fallback={<Skeleton className="h-[400px] rounded-2xl" />}>
-            <TicketInfo ticketId={id} />
+            <TicketInfo ticketId={id as string} />
           </Suspense>
         </div>
       </div>
     </div>
-  )
+  );
 }
