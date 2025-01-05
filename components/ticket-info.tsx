@@ -6,6 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ObjectId } from 'mongodb'
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Plus, X } from 'lucide-react'
 import { getStaffIdFromCookie } from '../lib/utils';
@@ -113,7 +114,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          tagId: Number(tagId),
+          tagId: new ObjectId(tagId),
           ticketId: ticket.id,
         }),
       })
