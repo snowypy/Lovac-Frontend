@@ -47,4 +47,4 @@ export default function TicketPage() {
       </div>
     </div>
   );
-}};
+}
