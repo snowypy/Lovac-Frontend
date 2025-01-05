@@ -320,7 +320,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
       animate={{ opacity: 1, y: 0 }}
     >
       <div className="max-h-36 space-y-2 h-[calc(100vh-10rem)] flex flex-col rounded-2xl border dark:border-gray-800 overflow-hidden flex-shrink-0">
-        <div className="bg-muted p-4 dark:bg-gray-800/50">
+      <div className="bg-muted p-4 dark:bg-gray-800/50">
           <pre className="text-sm overflow-auto whitespace-pre-wrap break-words max-h-60">
             <code>
               User banned: Cigan
@@ -334,31 +334,75 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
         <div className="text-sm text-muted-foreground">
           <Button variant="ghost" size="sm" className="ml-2 rounded-full">Lower Time</Button> <Button variant="ghost" size="sm" className="ml-2 rounded-full">Lift Punishment</Button> <Button variant="destructive" size="sm" className="ml-2 rounded-full">Blacklist</Button>
         </div>
-        <div className="flex-grow overflow-auto p-4">
-          {messages.map((message, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              whileHover={{ backgroundColor: "rgba(255,0,0,0.05)" }} 
-            >
-              <div className="flex gap-4">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={message.authorAvatar} />
-                  <AvatarFallback>{message.username}</AvatarFallback>
-                </Avatar>
-                <div className="space-y-2 flex-1">
-                  <div className="flex items-center gap-2">
-                    <span style={{ color: staffRoleColors[message.staffRole] || '' }} className={`font-medium text-${staffRoleColors[message.staffRole]}`}>{message.username}</span>
-                    <span className="text-sm text-muted-foreground">{new Date(message.date).toLocaleString()}</span>
-                  </div>
-                  <div className="text-sm">{message.message}</div>
+      </div>
+
+        <div className="p-4" />
+        
+      <div className="space-y-6 flex-grow overflow-auto">
+        {messages.map((message, index) => (
+          <motion.div
+            key={index}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            whileHover={{ backgroundColor: "rgba(255,0,0,0.05)" }} 
+          >
+            <div className="flex gap-4">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={message.authorAvatar} />
+                <AvatarFallback>{message.username}</AvatarFallback>
+              </Avatar>
+              <div className="space-y-2 flex-1">
+                <div className="flex items-center gap-2">
+                  <span style={{ color: staffRoleColors[message.staffRole] || '' }} className={`font-medium text-${staffRoleColors[message.staffRole]}`}>{message.username}</span>
+                  <span className="text-sm text-muted-foreground">{new Date(message.date).toLocaleString()}</span>
                 </div>
+                <div className="text-sm">{message.message}</div>
               </div>
-            </motion.div>
-          ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="sticky bottom-0 bg-background dark:bg-gray-900 pt-6 flex-shrink-0">
+        <div className="relative">
+          <Textarea 
+            ref={textareaRef}
+            onKeyDown={handleKeyDown}
+            placeholder="Type your reply... (Type / for commands)" 
+            className="resize-none rounded-2xl pr-20"
+            value={inputValue}
+            onChange={handleInputChange}
+            rows={1}
+            disabled={isClosed}
+          />
+          <AnimatePresence>
+            {showCommands && (
+              <CommandPalette onSelect={handleCommand} />
+            )}
+          </AnimatePresence>
+          <Button className="absolute bottom-2 right-2 rounded-full" onClick={handleSendMessage} disabled={isClosed}>Send</Button>
         </div>
+        <AlertDialog open={showCloseDialog} onOpenChange={setShowCloseDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Force Close Ticket</AlertDialogTitle>
+              <AlertDialogDescription>
+                Are you sure you want to force close this ticket? This action cannot be undone.
+                <Textarea
+                  placeholder="Enter reason for force closing..."
+                  className="mt-4"
+                  value={closeReason}
+                  onChange={(e) => setCloseReason(e.target.value)}
+                />
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={handleForceClose}>Force Close</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </motion.div>
   )
