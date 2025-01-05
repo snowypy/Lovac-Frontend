@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { Suspense } from "react";
 import { ChevronLeft, Download } from 'lucide-react';
 import Link from "next/link";
