@@ -12,7 +12,7 @@ interface TicketContextType {
 const TicketContext = createContext<TicketContextType | null>(null);
 
 export function TicketProvider({ children }: { children: React.ReactNode }) {
-  const [filterType, setFilterType] = useState<TicketFilterType>('all');
+  const [filterType, setFilterType] = useState<TicketFilterType>('unassigned');
 
   return (
     <TicketContext.Provider value={{ filterType, setFilterType }}>
