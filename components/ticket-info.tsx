@@ -80,7 +80,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
     if (!ticket) return
     
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/apply-tag`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tags/apply-tag`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
     if (!ticket) return
     
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/remove-tag`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tags/remove-tag`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
