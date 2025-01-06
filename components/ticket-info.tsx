@@ -20,7 +20,7 @@ interface Ticket {
 }
 
 interface Tag {
-  id: number
+  _id: string
   tagShort: string
   tagLong: string
   tagColor: string
@@ -193,12 +193,12 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
                 <div className="space-y-2">
                   {tags.map((tag) => (
                     <button
-                      key={tag.id}
+                      key={tag._id}
                       className={`w-full px-2 py-1 text-left rounded-lg hover:bg-muted ${
-                        ticket.tags.includes(tag.id.toString()) ? 'opacity-50' : ''
+                        ticket.tags.includes(tag._id.toString()) ? 'opacity-50' : ''
                       }`}
-                      onClick={() => addTag(tag.id)}
-                      disabled={ticket.tags.includes(tag.id.toString())}
+                      onClick={() => addTag(tag._id)}
+                      disabled={ticket.tags.includes(tag._id.toString())}
                     >
                       <span className="flex items-center gap-2">
                         {tag.tagIcon && <span className="text-lg">{tag.tagIcon}</span>}
