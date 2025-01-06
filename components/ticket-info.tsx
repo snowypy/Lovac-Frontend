@@ -185,37 +185,28 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-48 p-2">
-                
+                <div className="space-y-2">
+                  {tags.map((tag) => (
+                    <button
+                      key={tag.id}
+                      className={`w-full px-2 py-1 text-left rounded-lg hover:bg-muted ${
+                        ticket.tags.includes(tag.id.toString()) ? 'opacity-50' : ''
+                      }`}
+                      onClick={() => addTag(tag.id)}
+                      disabled={ticket.tags.includes(tag.id.toString())}
+                    >
+                      <span className="flex items-center gap-2">
+                        {tag.tagIcon && <span className="text-lg">{tag.tagIcon}</span>}
+                        <span>{tag.tagLong}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </PopoverContent>
             </Popover>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {ticket.tags.length === 0 ? (
-                <div className="text-muted-foreground">No tags</div>
-              ) : (
-                ticket.tags.map((tagId) => {
-                  const tag = tags.find((t) => t.id.toString() === tagId)
-                  if (!tag) return null
-                  return (
-                    <Badge
-                      key={tagId}
-                      className="flex items-center gap-1"
-                      style={{ backgroundColor: tag.tagColor }}
-                    >
-                      {tag.tagIcon && <span>{tag.tagIcon}</span>}
-                      {tag.tagShort}
-                      <button
-                        className="ml-1 hover:opacity-80"
-                        onClick={() => removeTag(tagId)}
-                      >
-                        <X className="h-3 w-3" />
-                      </button>
-                    </Badge>
-                  )
-                })
-              )}
-            </div>
+            
           </CardContent>
         </Card>
       </div>
