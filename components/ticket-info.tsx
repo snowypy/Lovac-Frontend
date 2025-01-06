@@ -81,7 +81,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
     fetchData()
   }, [ticketId])
 
-  const addTag = async (tagId: number) => {
+  const addTag = async (tagId: string) => {
     if (!ticket) return
     
     try {
@@ -99,7 +99,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
       if (response.ok) {
         setTicket(prev => prev ? {
           ...prev,
-          tags: [...prev.tags, tagId.toString()]
+          tags: [...prev.tags, tagId]
         } : null)
       }
     } catch (error) {
@@ -216,7 +216,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
                 <div className="text-muted-foreground">No tags</div>
               ) : (
                 ticket.tags.map((tagId) => {
-                  const tag = tags.find((t) => t.id.toString() === tagId)
+                  const tag = tags.find((t) => t._id === tagId)
                   if (!tag) return null
                   return (
                     <Badge
