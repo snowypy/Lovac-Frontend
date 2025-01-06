@@ -45,9 +45,14 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
       try {
         const ticketResponse = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tickets/${ticketId}`)
         const ticketData = await ticketResponse.json()
+
+        if (!ticketData || !ticketData.id) {
+          throw new Error('Invalid ticket data')
+        }
+
         setTicket(ticketData)
 
-        if (ticketData.assignee !== "0") {
+        if (ticketData.assignee && ticketData.assignee !== "0") {
           const restaffId = getStaffIdFromCookie()
           const staffResponse = await fetch(
             `${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/staff/check-staff`,
@@ -113,7 +118,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          tagId: tagId,
+          tagId,
           ticketId: ticket.id,
         }),
       })
