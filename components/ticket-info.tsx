@@ -80,7 +80,7 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
     if (!ticket) return
     
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tags/apply-tag`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/apply-tag`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -107,13 +107,13 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
     if (!ticket) return
     
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tags/remove-tag`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/remove-tag`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          tagId,
+          tagId: tagId,
           ticketId: ticket.id,
         }),
       })
@@ -206,7 +206,32 @@ export function TicketInfo({ ticketId }: { ticketId: string }) {
             </Popover>
           </CardHeader>
           <CardContent>
-            
+            <div className="flex flex-wrap gap-2">
+              {ticket.tags.length === 0 ? (
+                <div className="text-muted-foreground">No tags</div>
+              ) : (
+                ticket.tags.map((tagId) => {
+                  const tag = tags.find((t) => t.id.toString() === tagId)
+                  if (!tag) return null
+                  return (
+                    <Badge
+                      key={tagId}
+                      className="flex items-center gap-1"
+                      style={{ backgroundColor: tag.tagColor }}
+                    >
+                      {tag.tagIcon && <span>{tag.tagIcon}</span>}
+                      {tag.tagShort}
+                      <button
+                        className="ml-1 hover:opacity-80"
+                        onClick={() => removeTag(tagId)}
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </Badge>
+                  )
+                })
+              )}
+            </div>
           </CardContent>
         </Card>
       </div>
