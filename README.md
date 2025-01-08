@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lovac
 
-## Getting Started
+> [!IMPORTANT]
+> This is a work in progress. Please create an issue if you have any questions.
 
-First, run the development server:
+## What is Lovac?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Lovac is a **Discord x Website** ticket solution where end users create tickets from an embed in a Discord channel and staff members can manage them from both discord and the website.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Create tickets from Discord
+- Manage tickets from Discord
+- Manage tickets from the website
+- Assign tickets to staff members
+- Assign tickets to 'staff groups'
+- Force close tickets
+- Send close requests to the ticket creator
+- Send snippets from the website to Discord
+- Apply tags to tickets
+- Search tickets by tags
+- Search tickets by ticket ID
+- Track staff member activity via Statistics
+- Rate limit users
+- Rate limit ticket creation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+1. Clone the repository
+2. Run `npm install --force`
+3. Run `npm run dev`
+4. Create a `.env` file and fill in the required fields
+5. Run `npm run dev` again
+6. Visit the frontend address
+7. Done!
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Made with
 
-## Deploy on Vercel
+- [Discord.js](https://discord.js.org)
+- [Express](https://expressjs.com)
+- [MongoDB](https://mongodb.com)
+- [React](https://reactjs.org)
+- [Next.js](https://nextjs.org)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Authors
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Snowy](https://github.com/snowypy) - Lead Developer & Maintainer
