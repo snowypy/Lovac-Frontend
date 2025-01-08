@@ -210,11 +210,12 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
-    setInputValue(value);
     if (value.endsWith('/')) {
-      setShowCommands(true)
+      setInputValue(value.slice(0, -1));
+      setShowCommands(true);
     } else {
-      setShowCommands(false)
+      setInputValue(value);
+      setShowCommands(false);
     }
   }
 
@@ -223,11 +224,11 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
 
     switch (command) {
       case 'Appeal Format Snippet':
-        setInputValue(inputValue + "\n\nAppeal Format:\n1. Reason for appeal:\n2. Evidence:\n3. Additional comments:")
-        break
+        setInputValue(inputValue + "\n\nAppeal Format:\n1. Reason for appeal:\n2. Evidence:\n3. Additional comments:");
+        break;
       case 'Report Format Snippet':
-        setInputValue(inputValue + "\n\nReport Format:\n1. Player being reported:\n2. Reason for report:\n3. Evidence:\n4. Additional information:")
-        break
+        setInputValue(inputValue + "\n\nReport Format:\n1. Player being reported:\n2. Reason for report:\n3. Evidence:\n4. Additional information:");
+        break;
       case 'Unassign Ticket':
         const unassignResponse = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/unassign`, {
           method: 'POST',
@@ -242,7 +243,7 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
         }
 
         console.log('Ticket unassigned successfully');
-        break
+        break;
       case 'Send Close Request':
         const responses = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/close-ticket`, {
           method: 'POST',
@@ -255,10 +256,10 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
         if (!responses.ok) {
           throw new Error(`Failed to send close request: ${responses.statusText}`);
         }
-        break
+        break;
       case 'Close Ticket':
-        setShowCloseDialog(true)
-        break
+        setShowCloseDialog(true);
+        break;
       case 'Ping User':
         const response = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/tickets/${ticketId}`);
         if (!response.ok) {
@@ -266,10 +267,11 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
         }
         const data = await response.json();
         setInputValue(`<@${data.ownerId}>`);
-        break
+        break;
     }
-    setShowCommands(false)
-    textareaRef.current?.focus()
+    setShowCommands(false);
+    setInputValue('');
+    textareaRef.current?.focus();
   }
 
   const handleForceClose = async () => {
