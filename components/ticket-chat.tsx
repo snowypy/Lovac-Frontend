@@ -222,12 +222,14 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
   const handleCommand = async (command: string) => {
     if (isClosed) return;
 
+    let newValue = inputValue;
+
     switch (command) {
       case 'Appeal Format Snippet':
-        setInputValue(inputValue + "\n\nAppeal Format:\n1. Reason for appeal:\n2. Evidence:\n3. Additional comments:");
+        newValue += "\n\nAppeal Format:\n1. Reason for appeal:\n2. Evidence:\n3. Additional comments:";
         break;
       case 'Report Format Snippet':
-        setInputValue(inputValue + "\n\nReport Format:\n1. Player being reported:\n2. Reason for report:\n3. Evidence:\n4. Additional information:");
+        newValue += "\n\nReport Format:\n1. Player being reported:\n2. Reason for report:\n3. Evidence:\n4. Additional information:";
         break;
       case 'Unassign Ticket':
         const unassignResponse = await fetch(`${process.env.NEXT_PUBLIC_LOVAC_BACKEND_URL}/api/unassign`, {
@@ -266,11 +268,12 @@ export function TicketChat({ ticketId }: { ticketId: string }) {
           throw new Error(`Failed to fetch ticket owner: ${response.statusText}`);
         }
         const data = await response.json();
-        setInputValue(`<@${data.ownerId}>`);
+        newValue = `<@${data.ownerId}>`;
         break;
     }
+
     setShowCommands(false);
-    setInputValue('');
+    setInputValue(newValue);
     textareaRef.current?.focus();
   }
 
