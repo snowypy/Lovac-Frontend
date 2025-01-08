@@ -25,6 +25,7 @@ interface Message {
   authorAvatar: string
   date: string
   message: string
+  staffRole: string
 }
 
 const staffRoleColors: Record<string, string> = {
