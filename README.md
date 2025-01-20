@@ -46,6 +46,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [React](https://reactjs.org)
 - [Next.js](https://nextjs.org)
 
+## Disclosure
+
+Aspects of this frontend were made with Vercel's v0.
+
 ## Authors
 
 - [Snowy](https://github.com/snowypy) - Lead Developer & Maintainer
